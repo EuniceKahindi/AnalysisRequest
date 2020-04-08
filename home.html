@@ -1,0 +1,14 @@
+<html>
+  <body>
+    <h1>Add request</h1>
+    <form method="POST" action="/">
+        <input type="text" name="title">
+        <input type="submit" value="Add">
+    </form>
+
+    <h1>requests</h1>
+    {% for request in requests %}
+      <p>{{request.title}}</p>
+    {% endfor %}
+  </body>
+</html>

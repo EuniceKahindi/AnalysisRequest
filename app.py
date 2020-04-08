@@ -5,6 +5,7 @@ from flask import request
 
 from flask_sqlalchemy import SQLAlchemy
 import ssl
+from models.requestModel import requestModel 
 
 #ctx = ssl.SSLContext()
 #ctx.check_hostname = False
@@ -19,10 +20,15 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 
 db = SQLAlchemy(app)
 
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return "Hello, World!"
-    
+    if request.form:
+        requestmodel = requestModel(title=request.form.get("title"))
+        db.session.add(requestmodel)
+        db.session.commit()
+    requests = request.query.all()
+    return render_template("home.html", requests=requests)
+   
+
 if __name__ == "__main__":
     app.run(debug=True)
